@@ -30,6 +30,8 @@ class Template
         $this->addCssFile(CSS_DIR.'reset.css');
         $this->addCssFile(CSS_DIR.'fonts.css');
         $this->addCssFile(CSS_DIR.'global.css');
+        $this->addJsFile(JS_DIR.'global.js');
+        $this->addJQuery();
 
     }
 
@@ -66,6 +68,10 @@ class Template
             array_unshift($this->vars['assets']['js'], $pathToJs);
         else
             $this->vars['assets']['js'][] = $pathToJs;
+    }
+
+    public function addJQuery() {
+        $this->addJsFile(JS_DIR.'jquery-1.12.0.min.js', true);
     }
 
     public function addBootstrap()
