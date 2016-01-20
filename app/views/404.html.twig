@@ -11,6 +11,10 @@
     <title>{{ site_title }}</title>
 </head>
 <body>
-    <p>{{ error }}</p>
+    <div id="error">
+        <h1 class="font-black darkColor">Erreur <span class="lightColor">{{ error_type }}</span></h1>
+        <p class="font-lightItalic lightColor">{{ message }}</p>
+        <i class="fa fa-exclamation-circle error"></i>
+    </div>
 </body>
 </html>
