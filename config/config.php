@@ -9,9 +9,9 @@
 
 /** SETTINGS */
 
-define('SITE_TITLE', 'MyFramework');
+define('SITE_TITLE', 'DkFramework');
 
-define('ROOT', '/magicframework/');
+define('ROOT', '/dkframework/');
 
 define('CSS_DIR', ROOT.'public/css/');
 define('JS_DIR', ROOT.'public/js/');
