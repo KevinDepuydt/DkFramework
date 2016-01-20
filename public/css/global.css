@@ -1,14 +1,141 @@
+/** FONTS **/
+
+.font-black {
+    font-family: RobotoBlack, serif;
+}
+
+.font-blackItalic {
+    font-family: RobotoBlackItalic, serif;
+}
+
+.font-bold {
+    font-family: RobotoBold, serif;
+}
+
+.font-boldItalic {
+    font-family: RobotoBoldItalic, serif;
+}
+
+.font-medium {
+    font-family: RobotoMedium, serif;
+}
+
+.font-mediumItalic {
+    font-family: RobotoMediumItalic, serif;
+}
+
+.font-regular {
+    font-family: RobotoRegular, serif;
+}
+
+.font-regularItalic {
+    font-family: RobotoRegularItalic, serif;
+}
+
+.font-light {
+    font-family: RobotoLight, serif;
+}
+
+.font-lightItalic {
+    font-family: RobotoLightItalic, serif;
+}
+
+.font-thin {
+    font-family: RobotoThin, serif;
+}
+
+.font-thinItalic {
+    font-family: RobotoThinItalic, serif;
+}
+
+/** COLOR **/
+
+.lightColor {
+    color: #737373;
+}
+
+.darkColor {
+    color: #333333;
+}
+
+/** BODY **/
+
 body {
-    background-color: #bdcccd;
+    font-family: RobotoRegular, serif;
+    background-color: #eeeeee;
     font-size: 20px;
+    text-align: center;
 }
 
-body div {
-    padding: 20px;
+/** 404 **/
+
+#error h1 {
+    font-size: 52px;
+    margin: 20px 0
 }
 
-.initial-frame {
-    background-color: #f5f5f5;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 0 10px rgba(0, 0, 0, 0.25);
+#error i.error {
+    color: #c61f1b;
+    margin-top: 40px;
+    font-size: 160px !important;
+    text-shadow: 0 1px 2px #737373;
+}
+
+#error-type {
+    font-size: 52px;
+}
+
+/** DIV **/
+.bloc {
+    padding: 10px;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(51, 51, 51, 0.4);
+    text-align: left;
+    margin: 5px;
+}
+
+.inline-bloc {
+    display: inline-block;
+}
+
+/** FORM */
+form {
+    width: 500px;
+    text-align: left;
+}
+
+form button {
+    width: 100%;
+    font-size: 16px !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+}
+
+/** TITLE **/
+.title-bloc {
+    font-size: 20px;
+    line-height: 30px;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+    margin-bottom: 5px;
+}
+
+/** TEXT **/
+.text-bloc {
+    font-size: 16px;
+    line-height: 20px;
+    text-indent: 5px;
+}
+
+/** BASE SITE ITEMS CSS **/
+
+h1 {
+    font-size: 42px;
+    margin: 20px 0
+}
+
+i {
+    margin: 15px;
+    font-size: 72px !important;
+    text-shadow: 0 1px 2px #737373;
+    color: #f7ce54;
 }
