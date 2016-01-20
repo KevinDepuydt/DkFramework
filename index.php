@@ -14,8 +14,5 @@ use App\Components\Router\Router;
 /** ROUTER */
 $router = new Router($_GET['url']);
 
-/** SITE */
-$router->get('/', "Front#index");
-
 /** ROUTER EXECUTION */
 $router->check();
