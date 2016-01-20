@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% for css_url in assets.css %}
+        <link rel="stylesheet" type="text/css" href="{{ css_url }}">
+    {% endfor %}
+    {% for js_url in assets.js %}
+        <script type="text/javascript" src="{{ js_url }}"></script>
+    {% endfor %}
+    <title>{{ site_title }}</title>
+</head>
+<body>
+    <p>{{ error }}</p>
+</body>
+</html>
