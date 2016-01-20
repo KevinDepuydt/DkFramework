@@ -27,7 +27,10 @@ class Template
             'site_title' => SITE_TITLE
         ];
 
+        $this->addCssFile(CSS_DIR.'reset.css');
+        $this->addCssFile(CSS_DIR.'fonts.css');
         $this->addCssFile(CSS_DIR.'global.css');
+
     }
 
     /** RENDER */
