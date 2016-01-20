@@ -31,7 +31,7 @@ class FrontController
         $this->tpl->addFontAwesome();
 
         $this->tpl->addArrayVars([
-            'page_title' => "Index-Page",
+            'page_title' => "Index page",
             'text' => "Bienvenue sur la page d'accueil de mon framework"
         ]);
         $this->tpl->render('index.html.twig');
@@ -40,9 +40,10 @@ class FrontController
     /** 404 */
     public function urlErrorAction()
     {
+        $this->tpl->addFontAwesome();
         $this->tpl->addArrayVars([
-            'page_title' => "IndexPage",
-            'error' => "Cette page n'existe pas!"
+            'error_type' => "404",
+            'message' => "Cette page n'existe pas!"
         ]);
         $this->tpl->render('404.html.twig');
     }
