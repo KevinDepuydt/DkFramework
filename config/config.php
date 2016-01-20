@@ -7,20 +7,20 @@
  * Description : contains constant used for configuration of framework
  */
 
-/** SETTINGS */
+/** MODE */
+define('DEVELOPMENT_ENVIRONMENT', true);
 
+/** SITE PROPERTIES */
 define('SITE_TITLE', 'DkFramework');
 
+/** SETTINGS */
 define('ROOT', '/dkframework/');
-
 define('CSS_DIR', ROOT.'public/css/');
 define('JS_DIR', ROOT.'public/js/');
-
 define('BASE_SITE', ROOT);
 define('VENDOR_DIR', ROOT.'vendor/');
 
 /** BOOTSTRAP */
-
 define('BOOTSTRAP_DIR', VENDOR_DIR.'twbs/bootstrap/dist/');
 define('BOOTSTRAP_DIR_CSS', BOOTSTRAP_DIR.'css/');
 define('BOOTSTRAP_DIR_JS', BOOTSTRAP_DIR.'js/');
@@ -29,12 +29,8 @@ define('BOOTSTRAP_DIR_JS', BOOTSTRAP_DIR.'js/');
 define('FONT_AWESOME_DIR', VENDOR_DIR.'fortawesome/font-awesome/');
 define('FONT_AWESOME_CSS_DIR', FONT_AWESOME_DIR.'css/');
 
-/** MODE */
-
-define('DEVELOPMENT_ENVIRONMENT', true);
-
-/** NAVIGATION */
-
 /** DATABASE */
-
-define('NAME', null);
+define('DB_NAME', 'test');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
