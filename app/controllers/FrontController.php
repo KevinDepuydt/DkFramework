@@ -37,6 +37,19 @@ class FrontController
         $this->tpl->render('index.html.twig');
     }
 
+    /** INDEX */
+    public function testAction()
+    {
+        $this->tpl->addBootstrap();
+        $this->tpl->addFontAwesome();
+
+        $this->tpl->addArrayVars([
+            'page_title' => "Test page",
+            'text' => "Page de test du framework"
+        ]);
+        $this->tpl->render('index.html.twig');
+    }
+
     /** 404 */
     public function urlErrorAction()
     {
