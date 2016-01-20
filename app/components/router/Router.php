@@ -8,6 +8,8 @@
 
 namespace App\Components\Router;
 
+use Symfony\Component\Yaml\Yaml;
+
 class Router
 {
     public $url;
@@ -17,6 +19,7 @@ class Router
     public function __construct($url)
     {
         $this->url = $url;
+        $this->constructRoutes();
     }
 
     public function get($path, $callable, $name = null)
@@ -67,5 +70,28 @@ class Router
     public function getRoutes()
     {
         var_dump($this->routes);
+    }
+
+    private function constructRoutes()
+    {
+        $data = Yaml::parse(file_get_contents("config/routes.yml"));
+
+        foreach ($data as $route) {
+            if (empty($route['method']))
+                $route['method'] = "get";
+
+            if (!$this->isValidMethod($route['method']))
+                continue;
+            else
+                $this->buildRoute(strtolower($route['method']), $route['url'], ucfirst($route['controller']), $route['action']);
+        }
+    }
+
+    private function isValidMethod($method) {
+        return in_array(strtolower($method), ['get', 'post']);
+    }
+
+    private function buildRoute($method, $url, $controller, $action) {
+        $this->$method($url, $controller."#".$action);
     }
 }

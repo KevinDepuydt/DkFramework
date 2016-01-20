@@ -1,0 +1,12 @@
+# Project routes
+# if method attribute is not set, the GET method is choose by default
+
+# index page
+- url: "/"
+  controller: "front"
+  action: "index"
+
+# test page
+- url: "/test"
+  controller: "front"
+  action: "test"
