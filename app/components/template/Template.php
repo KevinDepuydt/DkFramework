@@ -53,6 +53,14 @@ class Template
         $this->vars = array_merge($this->vars, $array);
     }
 
+    /** ADD FUNCTION */
+
+    public function addFunction($name, $callable) {
+
+        $function = new \Twig_SimpleFunction($name, $callable);
+        $this->twig->addFunction($function);
+    }
+
     /** NEED */
 
     public function addCssFile($pathToCss, $placeFirst = false) {
