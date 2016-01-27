@@ -6,6 +6,16 @@
   controller: "front"
   action: "index"
 
+# create entity with doctrine
+- url: "/entity-create"
+  controller: "back"
+  action: "createEntity"
+
+- url: "/entity-create"
+  controller: "back"
+  method: "post"
+  action: "createEntity"
+
 # test page
 - url: "/test"
   controller: "front"
