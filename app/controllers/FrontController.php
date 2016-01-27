@@ -8,20 +8,11 @@
 
 namespace App\Controllers;
 
-use App\Components\Template\Template,
-    App\Components\Tools\Tools;
-
-
-class FrontController
+class FrontController extends Controller
 {
-    private $tpl;
-    private $tplDir = 'app/views';
-    private $tools;
-
     public function __construct() {
-        /** TWIG INIT */
-        $this->tpl = new Template($this->tplDir);
-        $this->tools = new Tools();
+        // initialize $this->tpl + $this->tools
+        parent::__construct();
     }
 
     /** INDEX */
