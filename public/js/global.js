@@ -27,21 +27,27 @@ $(function() {
 
         switch (type) {
             case NOTIF_SUCCESS:
-                notification =  $.parseHTML('<div class="notification notification-success">' +
+                notification =  $.parseHTML('<div>' +
+                    '<div class="notification notification-success">' +
                     '<i class="fa fa-close notification-close"></i>' +
                     '<p class="text"><i class="fa fa-check-circle"></i> '+message+'</p>' +
+                    '</div>' +
                     '</div>');
                 break;
             case NOTIF_WARNING:
-                notification =  $.parseHTML('<div class="notification notification-warning">' +
+                notification =  $.parseHTML('<div>' +
+                    '<div class="notification notification-warning">' +
                     '<i class="fa fa-close notification-close"></i>' +
                     '<p class="text"><i class="fa fa-exclamation-circle"></i> '+message+'</p>' +
+                    '</div>' +
                     '</div>');
                 break;
             case NOTIF_ERROR:
-                notification =  $.parseHTML('<div class="notification notification-error">' +
+                notification =  $.parseHTML('<div>' +
+                    '<div class="notification notification-error">' +
                     '<i class="fa fa-close notification-close"></i>' +
                     '<p class="text"><i class="fa fa-times-circle"></i> '+message+'</p>' +
+                    '</div>' +
                     '</div>');
                 break;
             default:
@@ -86,6 +92,24 @@ $(function() {
     });
     notifWarningBtn.click(function() {
         addWarningNotification("Warning message")
+    });
+
+    /** /entity-create **/
+
+    /** VARS **/
+    var entityAddForm = $('form[name="entityCreate"]');
+
+    entityAddForm.on('submit', function(e) {
+        var name = $(this).find('input[name="entityName"]').val();
+        var table = $(this).find('input[name="tableName"]').val();
+
+        if (!(name.length && table.length)) {
+            addErrorNotification("Au moins l'un des champs du formulaire est vide");
+        } else {
+            addSuccessNotification("L'entité vas être créée! Quand doctrine sera fonctionnel ...");
+        }
+
+        return false;
     });
 
 });
