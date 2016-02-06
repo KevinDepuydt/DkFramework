@@ -6,7 +6,9 @@
  * Time: 16:53
  */
 
-namespace App\Components\Router;
+namespace Core\Components\Router;
+
+use Core\Components\Tools\Tools;
 
 class Route
 {
@@ -58,8 +60,9 @@ class Route
 
         if (is_string($this->callable))
         {
+            Tools::accessLog($_SERVER);
             $params = explode('#', $this->callable);
-            $controller = "App\\Controllers\\" . $params[0] . "Controller";
+            $controller = "Core\\Controllers\\" . $params[0] . "Controller";
             $controller = new $controller();
             return call_user_func_array([$controller, $params[1]."Action"], $this->matches);
         } else

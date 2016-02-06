@@ -1,0 +1,33 @@
+# Project routes
+# if method attribute is not set, the GET method is choose by default
+
+# Example
+#route_name:
+# url: "/url"
+# controller: "test" -> for testController
+# method: "post" -> get by default if not set
+# action: "test" -> for testAction
+
+# index page
+index:
+ url: "/"
+ controller: "front"
+ action: "index"
+
+# create entity with doctrine
+entity_create_get:
+ url: "/entity-create"
+ controller: "back"
+ action: "createEntity"
+
+entity_create_post:
+ url: "/entity-create"
+ controller: "back"
+ method: "post"
+ action: "createEntityPosted"
+
+# test page
+test:
+ url: "/test"
+ controller: "front"
+ action: "test"

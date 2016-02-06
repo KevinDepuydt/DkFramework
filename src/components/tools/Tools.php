@@ -6,7 +6,7 @@
  * Time: 09:48
  */
 
-namespace App\Components\Tools;
+namespace Core\Components\Tools;
 
 class Tools
 {
@@ -123,5 +123,45 @@ class Tools
     public function getGetValue($name)
     {
         return !empty($_GET[$name]) ? $_GET[$name] : false;
+    }
+
+    public static function accessLog($server) {
+
+        $date = date('Y-m-d H:i:s');
+        $ip = self::get_client_ip();
+        $uri = $server['REQUEST_URI'];
+        $domain = $server["HTTP_HOST"];
+        $method = $server["REQUEST_METHOD"];
+
+        $fileContent = "";
+
+        if (file_exists(ACCESS_LOG_FILE)) {
+            $fileContent = file_get_contents(ACCESS_LOG_FILE);
+        }
+
+        $fileContent .= $date." ".$ip." access to ".$uri." with ".$method." method on domain ".$domain."\n";
+
+        file_put_contents(ACCESS_LOG_FILE, $fileContent);
+
+    }
+
+    public static function get_client_ip() {
+
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(!empty($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(!empty($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(!empty($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(!empty($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+
+        return $ipaddress;
     }
 }

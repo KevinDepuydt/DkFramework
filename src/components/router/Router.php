@@ -6,19 +6,21 @@
  * Time: 16:52
  */
 
-namespace App\Components\Router;
+namespace Core\Components\Router;
 
 use Symfony\Component\Yaml\Yaml;
 
 class Router
 {
     public $url;
+    private $routesData = [];
     public $routes = [];
     public $namedRoutes = [];
 
     public function __construct($url)
     {
         $this->url = $url;
+        $this->routesData = self::getRoutesData();
         $this->constructRoutes();
     }
 
@@ -74,9 +76,10 @@ class Router
 
     private function constructRoutes()
     {
-        $data = Yaml::parse(file_get_contents("config/routes.yml"));
+        if (empty($this->routesData))
+            $this->routesData = self::getRoutesData();
 
-        foreach ($data as $route) {
+        foreach ($this->routesData as $route) {
             if (empty($route['method']))
                 $route['method'] = "get";
 
@@ -93,5 +96,9 @@ class Router
 
     private function buildRoute($method, $url, $controller, $action) {
         $this->$method($url, $controller."#".$action);
+    }
+
+    public static function getRoutesData() {
+        return Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
     }
 }

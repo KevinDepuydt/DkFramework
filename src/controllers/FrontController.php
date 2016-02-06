@@ -6,7 +6,9 @@
  * Time: 11:27
  */
 
-namespace App\Controllers;
+namespace Core\Controllers;
+
+use Core\Models\User;
 
 class FrontController extends Controller
 {
@@ -25,6 +27,7 @@ class FrontController extends Controller
             'page_title' => "Index page",
             'text' => "Bienvenue sur la page d'accueil de mon framework"
         ]);
+
         $this->tpl->render('index.html.twig');
     }
 

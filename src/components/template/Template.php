@@ -6,7 +6,7 @@
  * Time: 11:17
  */
 
-namespace App\Components\Template;
+namespace Core\Components\Template;
 
 
 class Template
