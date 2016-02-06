@@ -9,14 +9,15 @@
     ],
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Core\\": "src/"
         }
     },
     "require": {
         "twbs/bootstrap": "^3.3",
         "twig/twig": "^1.23",
         "fortawesome/font-awesome": "^4.5",
-        "symfony/yaml": "^3.0",
-        "doctrine/orm": "^2.5"
+        "symfony/yaml": "^2.7",
+        "droxyum/supinternet-orm": "dev-master"
     }
 }
