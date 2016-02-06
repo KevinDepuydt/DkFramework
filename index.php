@@ -6,10 +6,10 @@
  * Time: 10:44
  */
 
-require_once 'config/config.php';
+require_once 'app/config/config.php';
 require_once 'vendor/autoload.php';
 
-use App\Components\Router\Router;
+use Core\Components\Router\Router;
 
 /** ROUTER */
 $router = new Router($_GET['url']);
