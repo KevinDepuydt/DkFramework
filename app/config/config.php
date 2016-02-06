@@ -12,13 +12,12 @@ define('DEVELOPMENT_ENVIRONMENT', true);
 
 /** SITE PROPERTIES */
 define('SITE_TITLE', 'DkFramework');
+define('PROJECT_DIR_NAME', 'dkframework');
 
 /** SETTINGS */
-define('PROJECT_DIR_NAME', 'dkframework');
 define('ROOT', '/'.PROJECT_DIR_NAME.'/');
 define('BASE_SITE', ROOT);
 define('BASE_ROUTE_URL', '/'.PROJECT_DIR_NAME);
-define('VENDOR_DIR', ROOT.'vendor/');
 define('DEV_MODE', false);
 
 /** DIRECTORIES */
@@ -28,6 +27,7 @@ define('ENTITY_DIR', "src/models/");
 define('CONFIG_DIR', "app/config/");
 define('VIEWS_DIR', "src/views/");
 define('LOGS_DIR', "app/logs/");
+define('VENDOR_DIR', ROOT.'vendor/');
 
 /** BOOTSTRAP */
 define('BOOTSTRAP_DIR', VENDOR_DIR.'twbs/bootstrap/dist/');
@@ -45,5 +45,6 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 
 /** LOGS */
+define('LOGS_ACTIVE', true);
 define('ACCESS_LOG_FILE', LOGS_DIR."access.txt");
 define('ERROR_LOG_FILE', LOGS_DIR."error.txt");
