@@ -8,11 +8,10 @@
 
 namespace Core\Components\Router;
 
-use Core\Components\Tools\Tools;
+use Core\Components\Logger\Logger;
 
 class Route
 {
-
     public $path;
     public $callable;
     public $matches = [];
@@ -25,59 +24,79 @@ class Route
     }
 
     public function with($param, $regex) {
-        $this->params[$param] = str_replace('(', '(?:', $regex);
-        return $this;
+        try {
+            $this->params[$param] = str_replace('(', '(?:', $regex);
+            return $this;
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function match($url)
     {
-        $url = trim($url, '/');
-        $path = preg_replace_callback('/:([\w]+)/', [$this, 'paramMatch'], $this->path);
-        $path = str_replace('/','\/',$path);
-        $regex = "#^$path$#i";
-        if (!preg_match($regex, $url, $matches))
-        {
-            return false;
+        try {
+            $url = trim($url, '/');
+            $path = preg_replace_callback('/:([\w]+)/', [$this, 'paramMatch'], $this->path);
+            $path = str_replace('/','\/',$path);
+            $regex = "#^$path$#i";
+            if (!preg_match($regex, $url, $matches))
+            {
+                return false;
+            }
+
+            array_shift($matches);
+
+            $this->matches = $matches;
+
+            return true;
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
         }
-
-        array_shift($matches);
-
-        $this->matches = $matches;
-
-        return true;
     }
 
     public function paramMatch($match)
     {
-        if (isset($this->params[$match[1]]))
-            return '(' . $this->params[$match[1]] . ')';
+        try {
+            if (isset($this->params[$match[1]]))
+                return '(' . $this->params[$match[1]] . ')';
 
-        return '([^/]+)';
+            return '([^/]+)';
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function call()
     {
 
-        if (is_string($this->callable))
-        {
-            Tools::accessLog($_SERVER);
-            $params = explode('#', $this->callable);
-            $controller = "Core\\Controllers\\" . $params[0] . "Controller";
-            $controller = new $controller();
-            return call_user_func_array([$controller, $params[1]."Action"], $this->matches);
-        } else
-            return call_user_func_array($this->callable, $this->matches);
+        try {
+            if (is_string($this->callable))
+            {
+                Logger::accessLog($_SERVER);
+                $params = explode('#', $this->callable);
+                $controller = "Core\\Controllers\\" . $params[0] . "Controller";
+                $controller = new $controller();
+                return call_user_func_array([$controller, $params[1]."Action"], $this->matches);
+            } else
+                return call_user_func_array($this->callable, $this->matches);
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function getUrl($params)
     {
-        $path = $this->path;
+        try {
+            $path = $this->path;
 
-        foreach($params as $k => $v)
-        {
-            $path = str_replace(":$k", $v, $path);
+            foreach($params as $k => $v)
+            {
+                $path = str_replace(":$k", $v, $path);
+            }
+
+            return $path;
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
         }
-
-        return $path;
     }
 }

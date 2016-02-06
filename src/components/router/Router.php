@@ -26,47 +26,67 @@ class Router
 
     public function get($path, $callable, $name = null)
     {
-        return $this->add($path, $callable, $name, 'GET');
+        try {
+            return $this->add($path, $callable, $name, 'GET');
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function post($path, $callable, $name = null)
     {
-        return $this->add($path, $callable, $name, 'POST');
+        try {
+            return $this->add($path, $callable, $name, 'POST');
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function add($path, $callable, $name, $method)
     {
-        $route = new Route($path, $callable);
-        $this->routes[$method][] = $route;
-        if (is_string($callable) && $name === null)
-            $name = $callable;
-        if ($name)
-            $this->namedRoutes[$name] = $route;
+        try {
+            $route = new Route($path, $callable);
+            $this->routes[$method][] = $route;
+            if (is_string($callable) && $name === null)
+                $name = $callable;
+            if ($name)
+                $this->namedRoutes[$name] = $route;
 
-        return $route;
+            return $route;
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function check()
     {
-        if (!isset($this->routes[$_SERVER['REQUEST_METHOD']]))
-            throw new RouterException('REQUEST_METHOD does not exist');
+        try {
+            if (!isset($this->routes[$_SERVER['REQUEST_METHOD']]))
+                throw new RouterException('REQUEST_METHOD does not exist');
 
-        foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
-            if ($route->match($this->url))
-                return $route->call();
+            foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
+                if ($route->match($this->url))
+                    return $route->call();
+            }
+
+            $this->get('',"Front#urlError")->call();
+
+            return true;
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
         }
-
-        $this->get('',"Front#urlError")->call();
-
-        return true;
     }
 
     public function url($name, $params = [])
     {
-        if (!isset($this->namedRoutes[$name]))
-            throw new RouterException('No route matches this name');
+        try {
+            if (!isset($this->namedRoutes[$name]))
+                throw new RouterException('No route matches this name');
 
-        return $this->namedRoutes[$name]->getUrl($params);
+            return $this->namedRoutes[$name]->getUrl($params);
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public function getRoutes()
@@ -76,29 +96,45 @@ class Router
 
     private function constructRoutes()
     {
-        if (empty($this->routesData))
-            $this->routesData = self::getRoutesData();
+        try {
+            if (empty($this->routesData))
+                $this->routesData = self::getRoutesData();
 
-        foreach ($this->routesData as $route) {
-            if (empty($route['method']))
-                $route['method'] = "get";
+            foreach ($this->routesData as $route) {
+                if (empty($route['method']))
+                    $route['method'] = "get";
 
-            if (!$this->isValidMethod($route['method']))
-                continue;
-            else
-                $this->buildRoute(strtolower($route['method']), $route['url'], ucfirst($route['controller']), $route['action']);
+                if (!$this->isValidMethod($route['method']))
+                    continue;
+                else
+                    $this->buildRoute(strtolower($route['method']), $route['url'], ucfirst($route['controller']), $route['action']);
+            }
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
         }
     }
 
     private function isValidMethod($method) {
-        return in_array(strtolower($method), ['get', 'post']);
+        try {
+            return in_array(strtolower($method), ['get', 'post']);
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     private function buildRoute($method, $url, $controller, $action) {
-        $this->$method($url, $controller."#".$action);
+        try {
+            $this->$method($url, $controller."#".$action);
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 
     public static function getRoutesData() {
-        return Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
+        try {
+            return Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
+        } catch (RouterException $e) {
+            throw new RouterException($e->getMessage());
+        }
     }
 }

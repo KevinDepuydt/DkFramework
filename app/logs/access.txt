@@ -1,4 +1,0 @@
-2016-02-06 09:25:59 ::1 access to /dkframework/entity-create with GET method on domain localhost
-2016-02-06 09:26:01 ::1 access to /dkframework/ with GET method on domain localhost
-2016-02-06 09:26:05 ::1 access to /dkframework/test/ with GET method on domain localhost
-2016-02-06 09:26:09 ::1 access to /dkframework/yollo with GET method on domain localhost

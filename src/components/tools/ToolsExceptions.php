@@ -2,19 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: Kévin
- * Date: 29/11/2015
- * Time: 17:02
+ * Date: 06/02/2016
+ * Time: 14:49
  */
 
-namespace Core\Components\Router;
+namespace Core\Components\Tools;
 
 use Core\Components\Logger\Logger;
 
-class RouterException extends \Exception
+class ToolsExceptions extends \Exception
 {
     public function __construct($message)
     {
         parent::__construct($message);
-        Logger::errorLog('-- Router error : '.$message);
+        Logger::errorLog('-- Tools error : '.$message);
     }
 }
