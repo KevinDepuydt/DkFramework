@@ -3,10 +3,17 @@
  */
 
 $(function() {
+
     /** CONSTANTS **/
     const NOTIF_SUCCESS = "success",
           NOTIF_ERROR = "error",
-          NOTIF_WARNING = "warning";
+          NOTIF_WARNING = "warning",
+          NOTIF_WRAPPER = $('#notification-wrapper');
+
+    /** VARIABLES **/
+    var notifErrorBtn = $('#notif-error'),
+        notifSuccessBtn = $('#notif-success'),
+        notifWarningBtn = $('#notif-warning');
 
     /** FUNCTIONS **/
     function hideNotification(obj, time) {
@@ -21,47 +28,52 @@ $(function() {
         }
     }
 
-    function addNotification(type, message) {
+    function notificationExist(name) {
+        return NOTIF_WRAPPER.find('[data-name="'+name+'"]').length;
+    }
 
-        var notification = '';
+    function addNotification(type, message, name) {
+        if (!notificationExist(name)) {
+            var notification = '';
 
-        switch (type) {
-            case NOTIF_SUCCESS:
-                notification =  $.parseHTML('<div class="notification notification-success">' +
-                    '<i class="fa fa-close notification-close"></i>' +
-                    '<p class="text"><i class="fa fa-check-circle"></i> '+message+'</p>' +
-                    '</div>');
-                break;
-            case NOTIF_WARNING:
-                notification =  $.parseHTML('<div class="notification notification-warning">' +
-                    '<i class="fa fa-close notification-close"></i>' +
-                    '<p class="text"><i class="fa fa-exclamation-circle"></i> '+message+'</p>' +
-                    '</div>');
-                break;
-            case NOTIF_ERROR:
-                notification =  $.parseHTML('<div class="notification notification-error">' +
-                    '<i class="fa fa-close notification-close"></i>' +
-                    '<p class="text"><i class="fa fa-times-circle"></i> '+message+'</p>' +
-                    '</div>');
-                break;
-            default:
-                console.log('if you see this, is not good');
+            switch (type) {
+                case NOTIF_SUCCESS:
+                    notification =  $.parseHTML('<div class="notification notification-success" data-name="'+name+'">' +
+                        '<i class="fa fa-close notification-close"></i>' +
+                        '<p class="text"><i class="fa fa-check-circle"></i> '+message+'</p>' +
+                        '</div>');
+                    break;
+                case NOTIF_WARNING:
+                    notification =  $.parseHTML('<div class="notification notification-warning" data-name="'+name+'">' +
+                        '<i class="fa fa-close notification-close"></i>' +
+                        '<p class="text"><i class="fa fa-exclamation-circle"></i> '+message+'</p>' +
+                        '</div>');
+                    break;
+                case NOTIF_ERROR:
+                    notification =  $.parseHTML('<div class="notification notification-error" data-name="'+name+'">' +
+                        '<i class="fa fa-close notification-close"></i>' +
+                        '<p class="text"><i class="fa fa-times-circle"></i> '+message+'</p>' +
+                        '</div>');
+                    break;
+                default:
+                    console.log('if you see this, is not good');
+            }
+
+            NOTIF_WRAPPER.append(notification);
+            addEventToNewNotification(notification);
         }
-
-        noficationsWrapper.append(notification);
-        addEventToNewNotification(notification);
     }
 
-    function addSuccessNotification(message) {
-        addNotification(NOTIF_SUCCESS, message);
+    function addSuccessNotification(message, name) {
+        addNotification(NOTIF_SUCCESS, message, name);
     }
 
-    function addErrorNotification(message) {
-        addNotification(NOTIF_ERROR, message);
+    function addErrorNotification(message, name) {
+        addNotification(NOTIF_ERROR, message, name);
     }
 
-    function addWarningNotification(message) {
-        addNotification(NOTIF_WARNING, message);
+    function addWarningNotification(message, name) {
+        addNotification(NOTIF_WARNING, message, name);
     }
 
     function addEventToNewNotification(obj) {
@@ -71,21 +83,15 @@ $(function() {
         hideNotification(obj, 5000);
     }
 
-    /** VARIABLES **/
-    var noficationsWrapper = $('#notification-wrapper'),
-        notifErrorBtn = $('#notif-error'),
-        notifSuccessBtn = $('#notif-success'),
-        notifWarningBtn = $('#notif-warning');
-
     /** APP **/
     notifErrorBtn.click(function() {
-        addErrorNotification("Error message")
+        addErrorNotification("Error message", "btn-test-error")
     });
     notifSuccessBtn.click(function() {
-        addSuccessNotification("Success message")
+        addSuccessNotification("Success message", "btn-test-success")
     });
     notifWarningBtn.click(function() {
-        addWarningNotification("Warning message")
+        addWarningNotification("Warning message", "btn-test-warning")
     });
 
     /** /entity-create **/
@@ -98,7 +104,7 @@ $(function() {
         var table = $(this).find('input[name="tableName"]').val();
 
         if (!(name.length && table.length)) {
-            addErrorNotification("Au moins l'un des champs du formulaire est vide");
+            addErrorNotification("Au moins l'un des champs du formulaire est vide", 'form-entity-error');
             return false;
         }
     });
