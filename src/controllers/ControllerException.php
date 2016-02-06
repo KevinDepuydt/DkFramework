@@ -8,6 +8,7 @@
 
 namespace Core\Controllers;
 
+use Core\Components\Logger\Logger;
 
 class ControllerException extends \Exception
 {
