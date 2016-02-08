@@ -33,7 +33,11 @@ class Logger
 
             $fileContent .= $date." ".$ip." access to ".$uri." with ".$method." method on domain ".$domain."\n";
 
-            file_put_contents(ACCESS_LOG_FILE, $fileContent);
+            try {
+                file_put_contents(ACCESS_LOG_FILE, $fileContent);
+            } catch (LoggerException $e) {
+                throw new LoggerException($e->getMessage(), $e->getCode());
+            }
         }
 
     }
@@ -51,7 +55,11 @@ class Logger
 
             $fileContent .= $date." ".$error."\n";
 
-            file_put_contents(ERROR_LOG_FILE, $fileContent);
+            try {
+                file_put_contents(ERROR_LOG_FILE, $fileContent);
+            } catch (LoggerException $e) {
+                throw new LoggerException($e->getMessage(), $e->getCode());
+            }
         }
     }
 

@@ -54,7 +54,7 @@ class Router
     {
         try {
             if (!isset($this->routes[$_SERVER['REQUEST_METHOD']]))
-                throw new RouterException('REQUEST_METHOD does not exist');
+                throw new RouterException('Request method does not exist');
 
             foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
                 if ($route->match($this->url))
@@ -104,7 +104,7 @@ class Router
 
     private function buildRoute($method, $url, $controller, $action, $module = null, $with = null) {
         if (!$this->$method($url, $controller."#".$action, $module, $with))
-            throw new RouterException("Impossible de créer la route ".$method."(".$url.", ".$controller."#".$action.")");
+            throw new RouterException("Impossible to create the route ".$method."(".$url.", ".$controller."#".$action.")");
     }
 
     public static function getRoutesData() {
@@ -113,7 +113,7 @@ class Router
         $routes = Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
 
         if (!$appRoutes)
-            throw new RouterException('Impossible de récupérer les fichiers de route');
+            throw new RouterException('Impossible to retrieve routes files');
 
         return array_merge($appRoutes,$routes);
     }

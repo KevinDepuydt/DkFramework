@@ -92,7 +92,7 @@ class Tools
 
         //save file
         if (!imagejpeg($image, $destination_url, $quality))
-            throw new ToolsExceptions("Impossible de sauvegarder l'image compressé");
+            throw new ToolsExceptions("Impossible to save compressed image");
 
         //return destination file
         return $destination_url;
@@ -104,7 +104,7 @@ class Tools
     public function getValue($name)
     {
         if (empty($_POST[$name]) && empty($_GET[$name]))
-            throw new ToolsExceptions("Les paramètres GET['".$name."''] et POST['".$name."'] n'existe pas");
+            throw new ToolsExceptions("GET['".$name."''] and POST['".$name."'] parameters do not exist");
 
         if (!empty($_POST[$name] && empty($_GET[$name])))
             return $_POST[$name];
@@ -122,7 +122,7 @@ class Tools
     public function getPostValue($name)
     {
         if (empty($_GET[$name]))
-            throw new ToolsExceptions("Le paramètre GET['".$name."']");
+            throw new ToolsExceptions("POST['".$name."'] parameter do not exist");
 
         return $_POST[$name];
     }
@@ -133,7 +133,7 @@ class Tools
     public function getGetValue($name)
     {
         if (empty($_GET[$name]))
-            throw new ToolsExceptions("Le paramètre GET['".$name."']");
+            throw new ToolsExceptions("GET['".$name."'] parameter do not exist");
 
         return $_GET[$name];
     }

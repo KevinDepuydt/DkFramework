@@ -46,6 +46,9 @@ class ModuleGenerator
 
     public function generateDirectories()
     {
+        if (!file_exists(MODULES_DIR) && !mkdir(MODULES_DIR))
+            throw new ModuleGeneratorException('Error creating the modules container folder');
+
         if (!mkdir(MODULES_DIR.$this->getName()))
             throw new ModuleGeneratorException('Error creating the module folder');
 

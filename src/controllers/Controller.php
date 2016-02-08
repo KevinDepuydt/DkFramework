@@ -64,7 +64,7 @@ abstract class Controller
     public static function getRequestUrl()
     {
         if (empty($_SERVER['REQUEST_URI']))
-            throw new ControllerException("Impossible de récupérer l'url");
+            throw new ControllerException("Impossible to retrieve the url");
 
         return $_SERVER['REQUEST_URI'];
     }
@@ -74,7 +74,7 @@ abstract class Controller
         $data = Yaml::parse(file_get_contents(CONFIG_DIR."database.yml"));
 
         if (!$data)
-            throw new ControllerException('Impossible de récupérer la configuration de la base de données');
+            throw new ControllerException('Impossible to retrieve database configuration');
 
         return $data;
     }

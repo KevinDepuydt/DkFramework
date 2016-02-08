@@ -60,7 +60,7 @@ class Template
         $function = new \Twig_SimpleFunction($name, $callable);
 
         if (!$function)
-            throw new TemplateException("Impossibe d'ajouter la fonction ".$name." à la template");
+            throw new TemplateException("Impossibe to add function ".$name." to template");
 
         $this->twig->addFunction($function);
     }

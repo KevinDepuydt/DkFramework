@@ -97,7 +97,7 @@ class BackController extends Controller
                 ]);
             }
         } else {
-            throw new ControllerException('Impossible de récupérer les données postées par le formulaire');
+            throw new ControllerException('Impossible to retrieve data send by form');
         }
 
         $this->createEntityAction();
@@ -170,7 +170,7 @@ class BackController extends Controller
                 ]);
             }
         } else {
-            throw new ControllerException('Impossible de récupérer les données postées par le formulaire');
+            throw new ControllerException('Impossible to retrieve data send by form');
         }
 
         $this->createModuleAction();
