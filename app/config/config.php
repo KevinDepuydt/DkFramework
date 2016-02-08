@@ -28,6 +28,7 @@ define('CONFIG_DIR', "app/config/");
 define('VIEWS_DIR', "src/views/");
 define('LOGS_DIR', "app/logs/");
 define('VENDOR_DIR', ROOT.'vendor/');
+define('MODULES_DIR', "modules/");
 
 /** BOOTSTRAP */
 define('BOOTSTRAP_DIR', VENDOR_DIR.'twbs/bootstrap/dist/');

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% for css_url in assets.css %}
+            <link rel="stylesheet" type="text/css" href="{{ css_url }}">
+        {% endfor %}
+        {% for js_url in assets.js %}
+            <script type="text/javascript" src="{{ js_url }}"></script>
+        {% endfor %}
+        <title>{{ site_title }}</title>
+    </head>
+    <body>
+        <!-- to place in an include tpl if notification -->
+        {% include 'includes/notifications-wrapper.html.twig' %}
+
+        <h1 class="font-bold darkColor">{{ page_title }}</h1>
+        <p class="font-lightItalic lightColor">{{ text }}</p>
+        <i class="fa fa-cubes"></i><br>
+
+        <p class="response-text {% if posted.success %}success{% else %}error{% endif %}">{{ posted.message }}</p>
+
+        <form name="moduleCreate" class="form-horizontal center-block" action="{{ getRoute("self") }}" method="post">
+            <div class="form-group">
+                <label for="inputNameModule" class="col-sm-3 control-label">Nom</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="moduleName" id="inputNameModule" placeholder="Nom du module">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9 pull-right">
+                    <button type="submit" class="btn btn-success">Ajouter un module</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="pull-left">
+            {% include 'includes/back-button.html.twig' %}
+        </div>
+
+    </body>
+</html>

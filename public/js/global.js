@@ -94,7 +94,7 @@ $(function() {
         addWarningNotification("Warning message", "btn-test-warning")
     });
 
-    /** /entity-create **/
+    /** /entity/create **/
 
     /** VARS **/
     var entityAddForm = $('form[name="entityCreate"]');
@@ -105,6 +105,19 @@ $(function() {
 
         if (!(name.length && table.length)) {
             addErrorNotification("Au moins l'un des champs du formulaire est vide", 'form-entity-error');
+            return false;
+        }
+    });
+
+
+    /** /module/create **/
+    var moduleAddForm = $('form[name="moduleCreate"]');
+
+    moduleAddForm.on('submit', function(e) {
+        var name = $(this).find('input[name="moduleName"]').val();
+
+        if (!name.length) {
+            addErrorNotification("Veuillez renseigner un nom pour votre module", 'form-entity-error');
             return false;
         }
     });
