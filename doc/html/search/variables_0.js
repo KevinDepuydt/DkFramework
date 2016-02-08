@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['_24callable',['$callable',['../class_core_1_1_components_1_1_router_1_1_route.html#ae3d0fc9fa800751a4a5e2917209d85f2',1,'Core::Components::Router::Route']]],
+  ['_24connection',['$connection',['../class_core_1_1_controllers_1_1_controller.html#a0d9c79b9b86b3f5891c6d3892f12c6a0',1,'Core::Controllers::Controller']]],
+  ['_24em',['$em',['../class_core_1_1_controllers_1_1_controller.html#a0f2991d5fed029ef50ef619f1a532d06',1,'Core::Controllers::Controller']]],
+  ['_24id',['$id',['../class_core_1_1_models_1_1_user.html#ae97941710d863131c700f069b109991e',1,'Core::Models::User']]],
+  ['_24mail',['$mail',['../class_core_1_1_models_1_1_user.html#ac409786c163a1974d1e24a6767a95166',1,'Core::Models::User']]],
+  ['_24matches',['$matches',['../class_core_1_1_components_1_1_router_1_1_route.html#ae9c29842f430802929abcf142683912c',1,'Core::Components::Router::Route']]],
+  ['_24module',['$module',['../class_core_1_1_components_1_1_router_1_1_route.html#ac531301c55a8d8b6c7613597218ff482',1,'Core::Components::Router::Route']]],
+  ['_24namedroutes',['$namedRoutes',['../class_core_1_1_components_1_1_router_1_1_router.html#a90adf61046228a59e3bf71cb50fcacbb',1,'Core::Components::Router::Router']]],
+  ['_24nickname',['$nickname',['../class_core_1_1_models_1_1_user.html#ad1bd86dff372e97d5f4c74eaee3c4ebc',1,'Core::Models::User']]],
+  ['_24params',['$params',['../class_core_1_1_components_1_1_router_1_1_route.html#afe68e6fbe7acfbffc0af0c84a1996466',1,'Core::Components::Router::Route']]],
+  ['_24path',['$path',['../class_core_1_1_components_1_1_router_1_1_route.html#a0a4baf0b22973c07685c3981f0d17fc4',1,'Core::Components::Router::Route']]],
+  ['_24router',['$router',['../index_8php.html#ad77f00d881c7c3dc8bd1749c7174de92',1,'index.php']]],
+  ['_24routes',['$routes',['../class_core_1_1_components_1_1_router_1_1_router.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8',1,'Core\Components\Router\Router\$routes()'],['../class_core_1_1_controllers_1_1_controller.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8',1,'Core\Controllers\Controller\$routes()']]],
+  ['_24sexe',['$sexe',['../class_core_1_1_models_1_1_user.html#afb20bffd19c2ec1199ffbfc1831585d3',1,'Core::Models::User']]],
+  ['_24tools',['$tools',['../class_core_1_1_controllers_1_1_controller.html#a77a602f13f1aa5cdcba877792fd54fe2',1,'Core::Controllers::Controller']]],
+  ['_24tpl',['$tpl',['../class_core_1_1_controllers_1_1_controller.html#a04b1944cdb09f9a4e290cde7a12499e6',1,'Core::Controllers::Controller']]],
+  ['_24tpldir',['$tplDir',['../class_core_1_1_controllers_1_1_controller.html#ab085b8ea67e1334f902fce22a83c8fe0',1,'Core::Controllers::Controller']]],
+  ['_24url',['$url',['../class_core_1_1_components_1_1_router_1_1_router.html#acf215f34a917d014776ce684a9ee8909',1,'Core::Components::Router::Router']]]
+];
