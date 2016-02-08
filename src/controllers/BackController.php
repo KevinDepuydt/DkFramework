@@ -8,6 +8,7 @@
 
 namespace Core\Controllers;
 
+use Core\Components\Generator\ModuleGenerator;
 use ORM\Console\Command\Generate\Entity;
 
 class BackController extends Controller
@@ -19,17 +20,14 @@ class BackController extends Controller
 
     public function createEntityAction()
     {
-
         $this->tpl->addBootstrap();
         $this->tpl->addFontAwesome();
         $this->tpl->addJQuery();
-        //$this->tpl->addJsFile(JS_DIR.'entity-create.js');
-        $this->tpl->addCssFile(CSS_DIR.'entity-create.css');
+        $this->tpl->addCssFile(CSS_DIR.'entity-module-create.css');
 
         $this->tpl->addArrayVars([
             'page_title' => "Créateur d'Entité",
-            'text' => "Créer ton entité en remplissant le formulaire suivant",
-            'self' => parent::getRequestUrl()
+            'text' => "Créer ton entité en remplissant le formulaire suivant"
         ]);
 
         $this->tpl->render('entity-create.html.twig');
@@ -90,7 +88,6 @@ class BackController extends Controller
                     }
                 }
 
-
             } else {
                 $this->tpl->addArrayVars([
                     'posted' => [
@@ -99,9 +96,83 @@ class BackController extends Controller
                     ]
                 ]);
             }
+        } else {
+            throw new ControllerException('Impossible de récupérer les données postées par le formulaire');
         }
 
         $this->createEntityAction();
     }
 
+    public function createModuleAction() {
+        $this->tpl->addBootstrap();
+        $this->tpl->addFontAwesome();
+        $this->tpl->addJQuery();
+        $this->tpl->addCssFile(CSS_DIR.'entity-module-create.css');
+
+        $this->tpl->addArrayVars([
+            'page_title' => "Créateur de module",
+            'text' => "Créer la base de ton module en renseignant son nom"
+        ]);
+
+        $this->tpl->render('module-create.html.twig');
+    }
+
+    public function createModulePostedAction() {
+
+        if ($_POST) {
+
+            if (!empty($_POST['moduleName'])) {
+
+                $mg = new ModuleGenerator($_POST['moduleName']);
+
+                if ($mg->isValidName()) {
+                    if (!$mg->exist()) {
+
+                        $mg->generate();
+
+                        if ($mg->exist()) {
+                            $this->tpl->addArrayVars([
+                                'posted' => [
+                                    'success' => true,
+                                    'message' => "Le module a bien été créé"
+                                ]
+                            ]);
+                        } else {
+                            $this->tpl->addArrayVars([
+                                'posted' => [
+                                    'success' => false,
+                                    'message' => "Une erreur est survenue lors de la création du module"
+                                ]
+                            ]);
+                        }
+                    } else {
+                        $this->tpl->addArrayVars([
+                            'posted' => [
+                                'success' => false,
+                                'message' => "Un module de ce nom existe déjà"
+                            ]
+                        ]);
+                    }
+                } else {
+                    $this->tpl->addArrayVars([
+                        'posted' => [
+                            'success' => false,
+                            'message' => "Le nom du module ne doit contenir que des lettres non accentuées"
+                        ]
+                    ]);
+                }
+            } else {
+                $this->tpl->addArrayVars([
+                    'posted' => [
+                        'success' => false,
+                        'message' => "Veuillez saisir le nom du module"
+                    ]
+                ]);
+            }
+        } else {
+            throw new ControllerException('Impossible de récupérer les données postées par le formulaire');
+        }
+
+        $this->createModuleAction();
+    }
 }

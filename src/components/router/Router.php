@@ -24,38 +24,30 @@ class Router
         $this->constructRoutes();
     }
 
-    public function get($path, $callable, $name = null)
+    public function get($path, $callable, $module = null, $with = null, $name = null)
     {
-        try {
-            return $this->add($path, $callable, $name, 'GET');
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        return $this->add($path, $callable, $name, 'GET', $module, $with);
     }
 
-    public function post($path, $callable, $name = null)
+    public function post($path, $callable, $module = null, $with = null, $name = null)
     {
-        try {
-            return $this->add($path, $callable, $name, 'POST');
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        return $this->add($path, $callable, $name, 'POST', $module, $with);
     }
 
-    public function add($path, $callable, $name, $method)
+    public function add($path, $callable, $name, $method, $module = null, $with = null)
     {
-        try {
-            $route = new Route($path, $callable);
-            $this->routes[$method][] = $route;
-            if (is_string($callable) && $name === null)
-                $name = $callable;
-            if ($name)
-                $this->namedRoutes[$name] = $route;
+        $route = new Route($path, $callable, $module);
+        $this->addWithParams($route, $with);
+        $this->routes[$method][] = $route;
+        if (is_string($callable) && $name === null)
+            $name = $callable;
+        if ($name)
+            $this->namedRoutes[$name] = $route;
 
-            return $route;
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        if (!$route)
+            throw new RouterException('Error creating route '.$path);
+
+        return $route;
     }
 
     public function check()
@@ -79,14 +71,10 @@ class Router
 
     public function url($name, $params = [])
     {
-        try {
-            if (!isset($this->namedRoutes[$name]))
-                throw new RouterException('No route matches this name');
+        if (!isset($this->namedRoutes[$name]))
+            throw new RouterException('No route matches this name');
 
-            return $this->namedRoutes[$name]->getUrl($params);
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        return $this->namedRoutes[$name]->getUrl($params);
     }
 
     public function getRoutes()
@@ -96,45 +84,52 @@ class Router
 
     private function constructRoutes()
     {
-        try {
-            if (empty($this->routesData))
-                $this->routesData = self::getRoutesData();
+        if (empty($this->routesData))
+            $this->routesData = self::getRoutesData();
 
-            foreach ($this->routesData as $route) {
-                if (empty($route['method']))
-                    $route['method'] = "get";
+        foreach ($this->routesData as $route) {
+            if (empty($route['method']))
+                $route['method'] = "get";
 
-                if (!$this->isValidMethod($route['method']))
-                    continue;
-                else
-                    $this->buildRoute(strtolower($route['method']), $route['url'], ucfirst($route['controller']), $route['action']);
-            }
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
+            if (!$this->isValidMethod($route['method']))
+                throw new RouterException('Invalid method for route '.$route['url']." (".$route['method'].")");
+            else
+                $this->buildRoute(strtolower($route['method']), $route['url'], ucfirst($route['controller']), $route['action'], (isset($route['module']) ? $route['module'] : null), (isset($route['with']) ? $route['with'] : null));
         }
     }
 
     private function isValidMethod($method) {
-        try {
-            return in_array(strtolower($method), ['get', 'post']);
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        return in_array(strtolower($method), ['get', 'post']);
     }
 
-    private function buildRoute($method, $url, $controller, $action) {
-        try {
-            $this->$method($url, $controller."#".$action);
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+    private function buildRoute($method, $url, $controller, $action, $module = null, $with = null) {
+        if (!$this->$method($url, $controller."#".$action, $module, $with))
+            throw new RouterException("Impossible de créer la route ".$method."(".$url.", ".$controller."#".$action.")");
     }
 
     public static function getRoutesData() {
-        try {
-            return Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
+        $data = Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
+
+        if (!$data)
+            throw new RouterException('Impossible de récupérer le fichier de route');
+
+        return $data;
+    }
+
+    private function addWithParams($route, $with) {
+        if ($with != null and is_array($with)) {
+            foreach ($with as $param => $type) {
+                switch ($type) {
+                    case "int":
+                        $route->with($param, '[0-9]+');
+                        break;
+                    case "string":
+                        $route->with($param, '[a-z\-0-9]+');
+                        break;
+                    default:
+                        throw new RouterException('Unknown param type');
+                }
+            }
         }
     }
 }

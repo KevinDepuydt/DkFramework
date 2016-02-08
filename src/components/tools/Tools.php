@@ -83,22 +83,19 @@ class Tools
      * fonction de compression des images
      */
     public function compress_image($source_url, $destination_url, $quality) {
-        try {
-            $info = getimagesize($source_url);
-            $image = null;
+        $info = getimagesize($source_url);
+        $image = null;
 
-            if ($info['mime'] == 'image/jpeg') $image = imagecreatefromjpeg($source_url);
-            elseif ($info['mime'] == 'image/gif') $image = imagecreatefromgif($source_url);
-            elseif ($info['mime'] == 'image/png') $image = imagecreatefrompng($source_url);
+        if ($info['mime'] == 'image/jpeg') $image = imagecreatefromjpeg($source_url);
+        elseif ($info['mime'] == 'image/gif') $image = imagecreatefromgif($source_url);
+        elseif ($info['mime'] == 'image/png') $image = imagecreatefrompng($source_url);
 
-            //save file
-            imagejpeg($image, $destination_url, $quality);
+        //save file
+        if (!imagejpeg($image, $destination_url, $quality))
+            throw new ToolsExceptions("Impossible de sauvegarder l'image compressé");
 
-            //return destination file
-            return $destination_url;
-        } catch (ToolsExceptions $e) {
-            throw new ToolsExceptions($e->getMessage());
-        }
+        //return destination file
+        return $destination_url;
     }
 
     /**
@@ -106,18 +103,17 @@ class Tools
      */
     public function getValue($name)
     {
-        try {
-            if (!empty($_POST[$name] && empty($_GET[$name])))
-                return $_POST[$name];
-            else if (empty($_POST[$name] && !empty($_GET[$name])))
-                return $_GET[$name];
-            else if (!empty($_POST[$name] && !empty($_GET[$name])))
-                return ['get' => $_GET[$name], 'post' => $_GET[$name]];
-            else
-                return false;
-        } catch (ToolsExceptions $e) {
-            throw new ToolsExceptions($e->getMessage());
-        }
+        if (empty($_POST[$name]) && empty($_GET[$name]))
+            throw new ToolsExceptions("Les paramètres GET['".$name."''] et POST['".$name."'] n'existe pas");
+
+        if (!empty($_POST[$name] && empty($_GET[$name])))
+            return $_POST[$name];
+        else if (empty($_POST[$name] && !empty($_GET[$name])))
+            return $_GET[$name];
+        else if (!empty($_POST[$name] && !empty($_GET[$name])))
+            return ['get' => $_GET[$name], 'post' => $_GET[$name]];
+        else
+            return false;
     }
 
     /**
@@ -125,11 +121,10 @@ class Tools
      */
     public function getPostValue($name)
     {
-        try {
-            return !empty($_POST[$name]) ? $_POST[$name] : false;
-        } catch (ToolsExceptions $e) {
-            throw new ToolsExceptions($e->getMessage());
-        }
+        if (empty($_GET[$name]))
+            throw new ToolsExceptions("Le paramètre GET['".$name."']");
+
+        return $_POST[$name];
     }
 
     /**
@@ -137,10 +132,9 @@ class Tools
      */
     public function getGetValue($name)
     {
-        try {
-            return !empty($_GET[$name]) ? $_GET[$name] : false;
-        } catch (ToolsExceptions $e) {
-            throw new ToolsExceptions($e->getMessage());
-        }
+        if (empty($_GET[$name]))
+            throw new ToolsExceptions("Le paramètre GET['".$name."']");
+
+        return $_GET[$name];
     }
 }

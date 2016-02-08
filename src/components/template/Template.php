@@ -41,102 +41,75 @@ class Template
 
     public function render($template)
     {
-        try {
-            echo $this->twig->render($template, $this->vars);
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        echo $this->twig->render($template, $this->vars);
     }
 
     /** ADD VARS */
 
     public function addVar($key, $value) {
-        try {
-            $this->vars[$key] = $value;
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $this->vars[$key] = $value;
     }
 
     public function addArrayVars($array) {
-        try {
-            $this->vars = array_merge($this->vars, $array);
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $this->vars = array_merge($this->vars, $array);
     }
 
     /** ADD FUNCTION */
 
     public function addFunction($name, $callable) {
-        try {
-            $function = new \Twig_SimpleFunction($name, $callable);
-            $this->twig->addFunction($function);
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $function = new \Twig_SimpleFunction($name, $callable);
+
+        if (!$function)
+            throw new TemplateException("Impossibe d'ajouter la fonction ".$name." à la template");
+
+        $this->twig->addFunction($function);
     }
 
     /** NEED */
 
     public function addCssFile($pathToCss, $placeFirst = false) {
-        try {
-            if ($placeFirst && isset($this->vars['assets']['css']))
-                array_unshift($this->vars['assets']['css'], $pathToCss);
-            else
-                $this->vars['assets']['css'][] = $pathToCss;
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        if ($placeFirst && isset($this->vars['assets']['css']))
+            array_unshift($this->vars['assets']['css'], $pathToCss);
+        else
+            $this->vars['assets']['css'][] = $pathToCss;
     }
 
     public function addJsFile($pathToJs, $placeFirst = false) {
-        try {
-            if ($placeFirst)
-                array_unshift($this->vars['assets']['js'], $pathToJs);
-            else
-                $this->vars['assets']['js'][] = $pathToJs;
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        if ($placeFirst)
+            array_unshift($this->vars['assets']['js'], $pathToJs);
+        else
+            $this->vars['assets']['js'][] = $pathToJs;
     }
 
     public function addJQuery() {
-        try {
-            $this->addJsFile(JS_DIR.'jquery-1.12.0.min.js', true);
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $this->addJsFile(JS_DIR.'jquery-1.12.0.min.js', true);
     }
 
     public function addBootstrap()
     {
-        try {
-            $this->addCssFile(BOOTSTRAP_DIR_CSS.'bootstrap.min.css', true);
-            $this->addCssFile(BOOTSTRAP_DIR_CSS.'bootstrap-theme.min.css', true);
-            $this->addJsFile(BOOTSTRAP_DIR_JS.'bootstrap.min.js');
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $this->addCssFile(BOOTSTRAP_DIR_CSS.'bootstrap.min.css', true);
+        $this->addCssFile(BOOTSTRAP_DIR_CSS.'bootstrap-theme.min.css', true);
+        $this->addJsFile(BOOTSTRAP_DIR_JS.'bootstrap.min.js');
     }
 
     public function addFontAwesome()
     {
-        try {
-            $this->addCssFile(FONT_AWESOME_CSS_DIR.'font-awesome.min.css');
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
-        }
+        $this->addCssFile(FONT_AWESOME_CSS_DIR.'font-awesome.min.css');
     }
 
     public function addSlick()
     {
-        try {
-            $this->addCssFile(BASE_SITE.'assets/slick/slick.css');
-            $this->addCssFile(BASE_SITE.'assets/slick/slick-theme.css');
-            $this->addJsFile(BASE_SITE.'assets/slick/slick.min.js');
-        } catch(TemplateException $e) {
-            throw new TemplateException($e->getMessage());
+        $this->addCssFile(BASE_SITE.'assets/slick/slick.css');
+        $this->addCssFile(BASE_SITE.'assets/slick/slick-theme.css');
+        $this->addJsFile(BASE_SITE.'assets/slick/slick.min.js');
+    }
+
+    /** ADD TEMPLATE DIR */
+    public function addTemplateDir($path, $name = null) {
+        if (!$name) {
+            $this->twigLoader->addPath($path);
+        } else {
+            $this->twigLoader->addPath($path, $name);
         }
     }
 

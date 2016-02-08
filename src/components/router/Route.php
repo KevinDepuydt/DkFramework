@@ -14,89 +14,85 @@ class Route
 {
     public $path;
     public $callable;
+    public $module;
     public $matches = [];
     public $params = [];
 
-    public function __construct($path, $callable)
+    public function __construct($path, $callable, $module)
     {
         $this->path = trim($path, '/');
         $this->callable = $callable;
+        $this->setModule($module);
     }
 
     public function with($param, $regex) {
-        try {
-            $this->params[$param] = str_replace('(', '(?:', $regex);
-            return $this;
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        $this->params[$param] = str_replace('(', '(?:', $regex);
+        return $this;
     }
 
     public function match($url)
     {
-        try {
-            $url = trim($url, '/');
-            $path = preg_replace_callback('/:([\w]+)/', [$this, 'paramMatch'], $this->path);
-            $path = str_replace('/','\/',$path);
-            $regex = "#^$path$#i";
-            if (!preg_match($regex, $url, $matches))
-            {
-                return false;
-            }
-
-            array_shift($matches);
-
-            $this->matches = $matches;
-
-            return true;
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
+        $url = trim($url, '/');
+        $path = preg_replace_callback('/:([\w]+)/', [$this, 'paramMatch'], $this->path);
+        $path = str_replace('/','\/',$path);
+        $regex = "#^$path$#i";
+        if (!preg_match($regex, $url, $matches))
+        {
+            return false;
         }
+
+        array_shift($matches);
+
+        $this->matches = $matches;
+
+        return true;
     }
 
     public function paramMatch($match)
     {
-        try {
-            if (isset($this->params[$match[1]]))
-                return '(' . $this->params[$match[1]] . ')';
+        if (isset($this->params[$match[1]]))
+            return '(' . $this->params[$match[1]] . ')';
 
-            return '([^/]+)';
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        return '([^/]+)';
     }
 
     public function call()
     {
-
-        try {
-            if (is_string($this->callable))
-            {
-                Logger::accessLog($_SERVER);
-                $params = explode('#', $this->callable);
-                $controller = "Core\\Controllers\\" . $params[0] . "Controller";
-                $controller = new $controller();
-                return call_user_func_array([$controller, $params[1]."Action"], $this->matches);
-            } else
-                return call_user_func_array($this->callable, $this->matches);
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
-        }
+        Logger::accessLog($_SERVER);
+        if (is_string($this->callable))
+        {
+            $params = explode('#', $this->callable);
+            $controller = $this->getNamespace() . $params[0] . "Controller";
+            $controller = new $controller();
+            return call_user_func_array([$controller, $params[1]."Action"], $this->matches);
+        } else
+            return call_user_func_array($this->callable, $this->matches);
     }
 
     public function getUrl($params)
     {
-        try {
-            $path = $this->path;
+        $path = $this->path;
 
-            foreach($params as $k => $v)
-            {
-                $path = str_replace(":$k", $v, $path);
-            }
-
-            return $path;
-        } catch (RouterException $e) {
-            throw new RouterException($e->getMessage());
+        foreach($params as $k => $v)
+        {
+            $path = str_replace(":$k", $v, $path);
         }
+
+        return $path;
+    }
+
+    public function setModule($name) {
+        $this->module = $name;
+    }
+
+    public function getModule() {
+        return $this->module;
+    }
+
+    public function getNamespace() {
+        if ($this->getModule()) {
+            return  "Modules\\".ucfirst($this->getModule())."\\Controllers\\";
+        } else
+            return "Core\\Controllers\\";
     }
 }

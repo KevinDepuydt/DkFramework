@@ -53,80 +53,56 @@ abstract class Controller
 
     public function getTemplateObject()
     {
-        try {
-            return $this->tpl;
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        return $this->tpl;
     }
 
     public function getToolsObject()
     {
-        try {
-            return $this->tools;
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        return $this->tools;
     }
 
     public static function getRequestUrl()
     {
-        try {
-            return $_SERVER['REQUEST_URI'];
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        if (empty($_SERVER['REQUEST_URI']))
+            throw new ControllerException("Impossible de récupérer l'url");
+
+        return $_SERVER['REQUEST_URI'];
     }
 
     protected function getDbParams()
     {
-        try {
-            return Yaml::parse(file_get_contents(CONFIG_DIR."database.yml"));
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        $data = Yaml::parse(file_get_contents(CONFIG_DIR."database.yml"));
+
+        if (!$data)
+            throw new ControllerException('Impossible de récupérer la configuration de la base de données');
+
+        return $data;
     }
 
     private function initRoutesNameAndUrl()
     {
-        try {
-            $data = Router::getRoutesData();
-            foreach ($data as $name => $value) {
-                $this->routesUrl[$name] = BASE_ROUTE_URL.$value['url'];
-            }
-            // add extra route to get self url
-            $this->routesUrl['self'] = $this->getRequestUrl();
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
+        $data = Router::getRoutesData();
+        foreach ($data as $name => $value) {
+            $this->routesUrl[$name] = BASE_ROUTE_URL.$value['url'];
         }
+        // add extra route to get self url
+        $this->routesUrl['self'] = $this->getRequestUrl();
     }
 
     private function initTemplateFunctions()
     {
-        try {
-            // return route name url
-            $this->tpl->addFunction('getRoute', function($name) {
-                return $this->routesUrl[$name];
-            });
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        // return route name url
+        $this->tpl->addFunction('getRoute', function($name) {
+            return $this->routesUrl[$name];
+        });
     }
 
     private function initConnection() {
-        try {
-            $data = $this->getDbParams();
-            $this->connection = new Connection($data['host'], $data['database'], $data['username'], $data['password']);
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        $data = $this->getDbParams();
+        $this->connection = new Connection($data['host'], $data['database'], $data['username'], $data['password']);
     }
 
     private function initEntityManager() {
-        try {
-            $this->em = new Manager();
-        } catch (ControllerException $e) {
-            throw new ControllerException($e->getMessage());
-        }
+        $this->em = new Manager();
     }
 }
