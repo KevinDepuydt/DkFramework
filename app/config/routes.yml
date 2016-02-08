@@ -1,30 +1,21 @@
-# Project routes
+# Project routes - create your own routes in this file
 # if method attribute is not set, the GET method is choose by default
 
-# Example
+### Example ###
 #route_name:
 # url: "/url"
 # controller: "test" -> for testController
 # method: "post" -> get by default if not set
 # action: "test" -> for testAction
+# module: "test" -> in module test
+# with:
+#   paramname: paramtype (int or string) (ex: name: "string")
 
 # index page
 index:
  url: "/"
  controller: "front"
  action: "index"
-
-# create entity with doctrine
-entity_create_get:
- url: "/entity-create"
- controller: "back"
- action: "createEntity"
-
-entity_create_post:
- url: "/entity-create"
- controller: "back"
- method: "post"
- action: "createEntityPosted"
 
 # test page
 test:

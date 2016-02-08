@@ -108,12 +108,14 @@ class Router
     }
 
     public static function getRoutesData() {
-        $data = Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
 
-        if (!$data)
-            throw new RouterException('Impossible de récupérer le fichier de route');
+        $appRoutes = Yaml::parse(file_get_contents(CONFIG_DIR."core-routes.yml"));
+        $routes = Yaml::parse(file_get_contents(CONFIG_DIR."routes.yml"));
 
-        return $data;
+        if (!$appRoutes)
+            throw new RouterException('Impossible de récupérer les fichiers de route');
+
+        return array_merge($appRoutes,$routes);
     }
 
     private function addWithParams($route, $with) {

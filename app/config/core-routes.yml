@@ -1,0 +1,38 @@
+# Application routes - don't delete these routes - create your own routes in routes.yml
+# if method attribute is not set, the GET method is choose by default
+
+### Example ###
+
+#route_name:
+# url: "/url"
+# controller: "test" -> for testController
+# method: "post" -> get by default if not set
+# action: "test" -> for testAction
+# module: "test" -> in module test
+# with:
+#   paramname: paramtype (int or string) ex: name: "string"
+
+# create entity with orm
+entity_create_get:
+ url: "/entity/create"
+ controller: "back"
+ action: "createEntity"
+
+entity_create_post:
+ url: "/entity/create"
+ controller: "back"
+ method: "post"
+ action: "createEntityPosted"
+
+# create new modules with generator
+module_create_get:
+ url: "/module/create"
+ controller: "back"
+ action: "createModule"
+ #method: "foo"
+
+module_create_post:
+ url: "/module/create"
+ controller: "back"
+ action: "createModulePosted"
+ method: "post"
